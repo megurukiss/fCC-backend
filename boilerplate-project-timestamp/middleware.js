@@ -1,4 +1,3 @@
-const { parse } = require("dotenv");
 
 const parseDate=function(req,res,next){
     const {date}=req.params;
@@ -7,8 +6,8 @@ const parseDate=function(req,res,next){
         const UTCdate=dt.toUTCString(); 
         const timestamp=dt.getTime();
         const djson={unix: timestamp, utc: UTCdate};
-        res.json(djson);
-        next();
+        return res.json(djson);
+        
     }
 
     let dt=new Date(date);
@@ -16,14 +15,12 @@ const parseDate=function(req,res,next){
         dt=new Date(parseInt(date));
     }
     if(!dt.getTime()){
-        res.json({error : "Invalid Date"});
-        next();
+        return res.json({error : "Invalid Date"});
     }
     const UTCdate=dt.toUTCString(); 
     const timestamp=dt.getTime();
     const djson={unix: timestamp, utc: UTCdate};
-    res.json(djson);
-    next();
+    return res.json(djson);
 };
 
 module.exports=parseDate;
